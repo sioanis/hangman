@@ -1,0 +1,58 @@
+header {
+  font-size: large;
+  top: 0;
+  border-top: none;
+}
+
+footer {
+  bottom: 0;
+  border-bottom: none;
+}
+
+header, footer {
+  position: fixed;
+  width: 100%;
+  background: white;
+  z-index: 1;
+  border: 1px solid #000;
+  border-right: none;
+  border-left: none;
+}
+
+.container {
+  margin: 40px 0;
+  width: 100%;
+}
+
+.item {
+  background: skyblue;
+  height: 20px;
+}
+
+.item:nth-child(even) {
+  background: pink;
+}
+
+.round {
+  border: 1px #000 solid;
+  border-radius: 5px;
+}
+
+.center {
+    line-height: 200px;
+    height: 200px;
+    border: 3px solid green;
+    text-align: center;
+}
+
+.center p {
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.img {
+  background: url(http://placehold.it/300x300) no-repeat;
+  background-size: cover;
+  height: 300px;
+}
