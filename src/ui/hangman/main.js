@@ -6,30 +6,31 @@ class Hangman extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      word: 'word'.split(''),
+      word: null,
       guess: 6
     };
   }
   onSubmit() {
     let win = 0;
-    if (this.state.guess) {
+    let letterFound = false
+    if (this.refs.guess.value) {
       this.state.word.forEach((letter, index) => {
         const i = this.refs[index.toString()];
-        if (!i.value) {
-          return;
-        }
-        if (i.value === letter) {
+        if (this.refs.guess.value === letter) {
+          i.value = letter;
+          letterFound = true;
           win++;
-          i.disabled = true;
-        } else {
-          const guess = this.state.guess - 1;
-          i.value = '';
-          if (!guess) {
-            alert('You lose!');
-          }
-          this.setState({ guess })
         }
       }, this)
+      if (!letterFound) {
+        const guess = Math.max(this.state.guess - 1,0);
+        if (!guess) {
+          alert('You lose!');
+          this.refs.guess.disabled = true;
+        }
+        this.setState({ guess })
+      }
+      this.refs.guess.value = '';
     }
     if (win === this.state.word.length) {
       alert('You win!')
@@ -38,16 +39,24 @@ class Hangman extends Component {
   render() {
     return (
       <div>
-        <section>
-          {
-            this.state.word.map((letter, index) => {
-              return <input ref={index} key={index} maxLength="1"></input>
-            })
-          }
-          <button onClick={() => this.onSubmit()}>Sumbit</button>
-          <p>Remaining guesses: {this.state.guess}</p>
-          <button onClick={() => this.props.back()}>Back to Menu</button>
-        </section>
+        {!this.state.word ?
+          <section>
+            <input ref='word' className='intro' placeholder='Enter a word.'></input>
+            <button onClick={() => this.setState({ word: this.refs.word.value && this.refs.word.value.split('') })}>Submit</button>
+          </section> :
+          <section>
+            {
+              this.state.word.map((letter, index) => {
+                return <input disabled={true} ref={index} key={index} maxLength="1"></input>
+              })
+            }
+            <p>Remaining guesses: {this.state.guess}</p>
+            <input className='letter' maxLength="1" ref='guess'></input>
+            <p>Enter a letter.</p>
+            <button onClick={() => this.onSubmit()}>Submit</button>
+            <button onClick={() => this.props.back()}>Back to Menu</button>
+          </section>
+        }
         <Body guess={this.state.guess}/>
       </div>
     );

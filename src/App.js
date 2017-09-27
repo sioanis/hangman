@@ -3,19 +3,18 @@ import './App.css';
 import Hangman from './ui/hangman/main.js';
 import Layout from './ui/layout/main.js';
 
+const initialState = {
+  hangman: false,
+  layout: false
+};
+
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      hangman: false,
-      layout: false
-    }
+    this.state = initialState
   }
   backBtn() {
-    this.setState({
-      hangman: false,
-      layout: false
-    })
+    this.setState(initialState)
   }
   render() {
     return this.state.hangman ? <Hangman back={() => this.backBtn()}/> :
